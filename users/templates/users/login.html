@@ -1,139 +1,57 @@
 {% extends 'base.html' %}
 {% load socialaccount %}
-
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
-
-
 {% block title %}Login{% endblock %}
-
 {% block content %}
-
-
 <style>
-    body{
+    body {
         background-color: var(--hover-clr-darker);
         color: var(--text-clr-shade);
     }
-    :root{
-    --base-clr: #11121a;
-    --base-clr-lighter: #1a1b24;
-    --base-clr-darker: #0b0c11;
-    --base-clr-tint: #2d2e3c;
-    --base-clr-muted: #181a23;
-    --base-clr-shade: #08090d;
-
-    --line-clr: #42434a;
-    --line-clr-darker: #36373d;
-    --line-clr-lighter: #5a5b61;
-    --line-clr-tint: #61626a;
-    --line-clr-shade: #2a2b31;
-    --line-clr-muted: #505158;
-    
-    --text-clr: #e6e6ef;
-    --secondary-text-clr: #b0b3c1;
-    
-    --accent-clr: #5e63ff;
-    
-    --hover-clr: #222533;
-    --hover-clr-darker: #1a1c28;
-    --hover-clr-lighter: #2b2f3e;
-    --hover-clr-tint: #3b3f52;
-    --hover-clr-shade: #181a22;
-    --hover-clr-muted: #2e3140;
-    --text-clr-lighter: #f2f2f9;
---text-clr-darker: #d4d4e3;
---text-clr-muted: #9fa2b2;
---text-clr-tint: #c5c7d8;
---text-clr-shade: #8c8f9f;
-
---secondary-text-clr-lighter: #c3c6d5;
---secondary-text-clr-darker: #9698a6;
---secondary-text-clr-muted: #8a8ca1;
---secondary-text-clr-tint: #a5a8b8;
---secondary-text-clr-shade: #7e8091;
-
-
-
-
-}
-    form{
-        width: 260px;
-        height: 300px;
-        align-content: center;
-        margin-top: 20px;
-        
-        p{
-            text-align: center;
-            font-size: 17px;
-            margin-bottom: 20px;
-        }
+    #image {
+        margin-top: 10px;
+        box-shadow: 5px 5px 5px 5px gray;
+        width: 60px;
+        padding: 20px;
+        font-weight: 400;
+        padding-bottom: 0px;
+        height: 40px;
+        user-select: none;
+        text-decoration: line-through;
+        font-style: italic;
+        font-size: x-large;
+        border: red 2px solid;
+        margin-left: 10px;
     }
-
-    .submit-btn{
-        background-color: lightseagreen;
-        transition: 300ms;
-        width: 100px;
+    #user-input {
+        box-shadow: 5px 5px 5px 5px gray;
+        width: auto;
+        margin-right: 10px;
+        padding: 10px;
+        padding-bottom: 0px;
+        height: 40px;
+        border: red 0px solid;
     }
-
-    .submit-btn:hover{
-        transition: 300ms;
-        transform: scale(1.1);
-        background-color: var(--hover-clr-lighter);
-    
+    input {
+        border: 1px black solid;
     }
-    .login-box{
-        background-color: var(--line-clr-darker);
-        h2{
-            color: var(--text-clr-muted);
-            font-size: 30px;
-        }
+    .inline {
+        display: inline-block;
     }
-
-    .sign-up-link{
-        color: var(--text-clr-lighter);
+    #btn {
+        box-shadow: 5px 5px 5px grey;
+        color: aqua;
+        margin: 10px;
+        background-color: brown;
     }
-
-    body{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .login-header{
-        margin: 0;
-    }
-
-    .sign-up-link{
-        
-        font-size: 20px;
-        transition: 300ms;
-        p{
-            display: block;
-            width: auto;
-        }
-        a{
-            width: auto;
-            display: block;
-            transition: 300ms;
-        }
-    }
-    
-    .sign-up-link:hover{
-        a{
-            transform: scale(1.1);
-        }
-    }
-
 </style>
 
 <div class="login-box">
     <div class="login-header">
-            <h2>Login Here</h2>
+        <h2>Login Here</h2>
     </div>
-
-
-    <form method="post">
+    <form method="post" onsubmit="return validateCaptcha()">
         {% csrf_token %}
         {% if error %}
         <p style="color: rgb(255, 0, 0);">{{ error }}</p>
@@ -144,23 +62,49 @@
         <div class="input-box">
             <input type="password" class="input-field" placeholder="Password" name="password" required>
         </div>
+        <div class="input-box">
+            <div id="user-input" class="inline">
+                <input type="text" id="captcha-input" placeholder="Captcha code" />
+            </div>
+            <div class="inline" onclick="generateCaptcha()">
+                <i class="fas fa-sync"></i>
+            </div>
+            <div id="image" class="inline" selectable="False"></div>
+        </div>
         <div class="input-submit">
             <button type="submit" class="submit-btn">Login</button>
         </div>
     </form>
-
     <div class="sign-up-link">
-
-        <p>Don't have an account? 
-        </p>
+        <p>Don't have an account?</p>
         <a href="{% url 'teacher_signup' %}" onclick="toggleSignupOptions()">Sign up here</a>
-
     </div>
     <div id="signup-options" style="display: none;">
     </div>
 </div>
-
 <script>
+    let captcha;
+    function generateCaptcha() {
+        document.getElementById("captcha-input").value = "";
+        captcha = document.getElementById("image");
+        let uniquechar = "";
+        const randomchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (let i = 1; i < 5; i++) {
+            uniquechar += randomchar.charAt(Math.random() * randomchar.length);
+        }
+        captcha.innerHTML = uniquechar;
+    }
+    function validateCaptcha() {
+        const usr_input = document.getElementById("captcha-input").value;
+        if (usr_input === captcha.innerHTML) {
+            document.getElementById("key").innerHTML = "Matched";
+            return true;
+        } else {
+            document.getElementById("key").innerHTML = "Not Matched";
+            generateCaptcha();
+            return false;
+        }
+    }
     function toggleSignupOptions() {
         var x = document.getElementById("signup-options");
         if (x.style.display === "none") {
@@ -169,5 +113,7 @@
             x.style.display = "none";
         }
     }
+    window.onload = generateCaptcha;
 </script>
+<p id="key"></p>
 {% endblock %}
