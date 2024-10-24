@@ -117,29 +117,17 @@
 
 
 
-<!--         
-        <h1 id="urcls">Your Classes</h1>
-        <div class="box">
-        <div class="cls">Class 1</div>
-        <div class="cls">Class 2</div>
-        <div class="cls">Class 3</div>
-        <div class="cls">Class 4</div>
-        <div class="cls">Class 5</div>
-        <div class="cls">Class 6</div>
-        <div class="cls">Class 7</div>
-        <div class="cls">Class 8</div>
-        <div class="cls">Class 9</div>
-        <div class="cls">Class 10</div>
-        <div class="cls">Class 11</div>
-        <div class="cls">Class 12</div>
-        </div> -->
-
 
         <h1 id="urcls">Your Classes</h1>
+
         <div class="box">
-            <div class="create">
-                <a href="">hi hello</a>
+
+            <div style="border-radius: 10px;background-color: var(--hover-clr);box-sizing: border-box;display: grid;height: 200px;width: 200px;margin: 10px;padding: 10px;" class="create">
+                <a href="{% url 'create_class' %}">
+                    <svg  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="hsla(0,0%,92%,1)"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                </a>
             </div>
+
             {% for class_group in class_groups %}
             <div class="cls">
                 {% comment %} <h3>{{ class_group.name }}</h3> {% endcomment %}
