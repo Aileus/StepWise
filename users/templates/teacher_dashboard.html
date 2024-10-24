@@ -132,16 +132,14 @@
                 {% comment %} <h3>{{ class_group.name }}</h3> {% endcomment %}
                 <p>Grade: {{ class_group.grade }}</p>
                 <p>Subject: {{ class_group.subject }}</p>
-                <a href="{% url 'generate_student_account' class_group.id %}">Add students to {{ class_group.name }}</a>
+                <a style="text-decoration: none; color: aqua;" href="{% url 'generate_student_account' class_group.id %}">Add students to {{ class_group.name }}</a>
             </div>
             {% empty %}
             <p>No classes available.</p>
             {% endfor %}
         </div>
 
-        <div class="popup">
-            <a href="{% url 'logout' %}">Logout</a>
-        </div>
+
     </main>
 </body>
 </html>

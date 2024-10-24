@@ -15,7 +15,7 @@ from django.db import IntegrityError
 from .forms import TeacherSignUpForm, StudentSignUpForm, CreateClassForm, JoinClassForm, TestForm, QuestionForm, OptionForm
 from .models import User, TeacherProfile, StudentProfile, ClassGroup, Test, Question, Option
 from datetime import datetime
-
+from django.contrib import messages
 
 
 def login_view(request):
@@ -91,6 +91,7 @@ def generate_student_account(request, class_group_id):
         password = request.POST.get('password')
         password_confirm = request.POST.get('password2')
         if password != password_confirm:
+            messages.success(request, 'Your form was submitted successfully!')
             return render(request, 'generate_student_account.html', {
                 'error': 'Passwords do not match.',
                 'class_group_id': class_group_id
@@ -100,7 +101,7 @@ def generate_student_account(request, class_group_id):
             if User.objects.filter(username=username).exists():
                 return render(request, 'generate_student_account.html', {
                     'error': 'A user with that username already exists.',
-                    'class_group_id': class_group_id
+                    'class_group_id': class_group_id,
                 })
                 
             user = User.objects.create_user(username=username, email=email, password=password)
@@ -304,3 +305,66 @@ def submit_answers(request):
         })
     return redirect('reels')
 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+@login_required
+def generate_student_account(request, class_group_id):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password2')
+        if password != password_confirm:
+            return render(request, 'generate_student_account.html', {
+                'error': 'Passwords do not match.',
+                'class_group_id': class_group_id
+            })
+
+        try:
+            if User.objects.filter(username=username).exists():
+                return render(request, 'generate_student_account.html', {
+                    'error': 'A user with that username already exists.',
+                    'class_group_id': class_group_id
+                })
+            user = User.objects.create_user(username=username, email=email, password=password)
+            # Mark the user as a student
+            user.is_student = True
+            user.save()
+            student_profile = StudentProfile(user=user)
+            student_profile.save()
+            class_group = ClassGroup.objects.get(id=class_group_id)
+            class_group.students.add(student_profile)
+            class_group.save()
+            send_credentials_email(email, username, password)
+            return redirect('teacher_dashboard')
+        except IntegrityError:
+            return render(request, 'generate_student_account.html', {
+                'error': 'There was an error creating the student account. Please try again.',
+                'class_group_id': class_group_id
+            })
+    else:
+        return render(request, 'generate_student_account.html', {'class_group_id': class_group_id})
+
+def send_credentials_email(to_email, username, password):
+    from_email = 'studentsbbps@gmail.com'
+    email_password = 'nunmpymjsqkefgsu'
+    subject = 'Your StepWise Login Credentials'
+    message = f'Dear {username},\nWelcome to StepWise! Below are your login credentials:\nLogin ID: {username}\nPassword: {password}\n Please keep these details secure. For assistance, contact stepwise@gmail.com.\nBest regards,\nStepWise Team'
+    
+
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(message, 'plain'))
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(from_email, email_password)
+        server.sendmail(from_email, to_email, msg.as_string())
+        server.quit()
+    except Exception as e:
+        print(f"Failed to send email: {e}")
