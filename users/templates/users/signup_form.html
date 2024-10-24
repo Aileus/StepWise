@@ -55,7 +55,7 @@
         right: 0;
         top: 0;
         background-color: var(--base-clr);
-        padding: 0 ;
+        padding: 40px;
         text-align: center;
         width: 800px;
         height: 100vh;
@@ -66,15 +66,14 @@
         justify-content: center;
         align-content: center;
         align-items: end;
-    }
 
+    }
     body{
         display: grid;
         margin: 0;
         grid-template-areas: "logo form";
         grid-template-columns: 1fr 800px;
     }
-    
     form {
         display: grid;
         grid-template-rows: 60px 60px 1fr 1fr 1fr 1fr;
@@ -127,8 +126,11 @@
         width: 60px;
         grid-area: submit;
     }
-    img{
+    .IMG{
+        display: grid;
         grid-area: logo;
+    }
+    img{
         margin-top: 0;
         padding: 0;
         width: 100%;
@@ -137,7 +139,9 @@
 </style>
 
 <body style="background-color: var(--hover-clr);">
-    <img src="{% static 'images/stepwiselogo.jpg' %}" alt="#">
+    <div class="IMG">
+        <img src="{% static 'images/stepwiselogo.jpg' %}" alt="#">
+    </div>
     <div class="login-box">
 
         <form method="post">
