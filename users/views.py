@@ -298,21 +298,3 @@ def submit_answers(request):
         })
     return redirect('reels')
 
-def email_send(request):
-    #app password: pvqe cmxh zseb kfad
-
-    import smtplib
-    email = 'geelatowel2024@gmail.com'
-    reciever_email = input('reciever email: ')
-
-    subject = input('subject: ')
-    message = input('message: ')
-
-    text = f"Subject: {subject}\n\n{message}"
-
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-
-    server.login(email, "pvqecmxhzsebkfad")
-
-    server.sendmail(email, reciever_email, text)
