@@ -117,7 +117,7 @@
 
 
 
-        
+<!--         
         <h1 id="urcls">Your Classes</h1>
         <div class="box">
         <div class="cls">Class 1</div>
@@ -132,7 +132,25 @@
         <div class="cls">Class 10</div>
         <div class="cls">Class 11</div>
         <div class="cls">Class 12</div>
-    </div>
+        </div> -->
+
+
+        <h1 id="urcls">Your Classes</h1>
+        <div class="box">
+            <div class="create">
+                <a href="">hi hello</a>
+            </div>
+            {% for class_group in class_groups %}
+            <div class="cls">
+                {% comment %} <h3>{{ class_group.name }}</h3> {% endcomment %}
+                <p>Grade: {{ class_group.grade }}</p>
+                <p>Subject: {{ class_group.subject }}</p>
+                <a href="{% url 'generate_student_account' class_group.id %}">Add students to {{ class_group.name }}</a>
+            </div>
+            {% empty %}
+            <p>No classes available.</p>
+            {% endfor %}
+        </div>
 
     </main>
 </body>
