@@ -90,13 +90,19 @@ def generate_student_account(request, class_group_id):
         email = request.POST.get('email')
         password = request.POST.get('password')
         password_confirm = request.POST.get('password2')
-        student_id = request.POST.get('student_id') 
+        if password != password_confirm:
+            return render(request, 'generate_student_account.html', {
+                'error': 'Passwords do not match.',
+                'class_group_id': class_group_id
+            })
+            
         try:
             if User.objects.filter(username=username).exists():
                 return render(request, 'generate_student_account.html', {
                     'error': 'A user with that username already exists.',
                     'class_group_id': class_group_id
                 })
+                
             user = User.objects.create_user(username=username, email=email, password=password)
             # Mark the user as a student
             user.is_student = True
