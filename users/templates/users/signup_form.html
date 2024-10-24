@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    :root {
+        --base-clr: #11121a;
+        --base-clr-lighter: #1a1b24;
+        --base-clr-darker: #0b0c11;
+        --base-clr-tint: #2d2e3c;
+        --base-clr-muted: #181a23;
+        --base-clr-shade: #08090d;
+
+        --line-clr: #42434a;
+        --line-clr-darker: #36373d;
+        --line-clr-lighter: #5a5b61;
+        --line-clr-tint: #61626a;
+        --line-clr-shade: #2a2b31;
+        --line-clr-muted: #505158;
+
+        --text-clr: #e6e6ef;
+        --secondary-text-clr: #b0b3c1;
+
+        --accent-clr: #5e63ff;
+
+        --hover-clr: #222533;
+        --hover-clr-darker: #1a1c28;
+        --hover-clr-lighter: #2b2f3e;
+        --hover-clr-tint: #3b3f52;
+        --hover-clr-shade: #181a22;
+        --hover-clr-muted: #2e3140;
+        --text-clr-lighter: #f2f2f9;
+        --text-clr-darker: #d4d4e3;
+        --text-clr-muted: #9fa2b2;
+        --text-clr-tint: #c5c7d8;
+        --text-clr-shade: #8c8f9f;
+
+        --secondary-text-clr-lighter: #c3c6d5;
+        --secondary-text-clr-darker: #9698a6;
+        --secondary-text-clr-muted: #8a8ca1;
+        --secondary-text-clr-tint: #a5a8b8;
+        --secondary-text-clr-shade: #7e8091;
+
+    }
+
+    .login-box {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: var(--base-clr);
+        padding: 0 ;
+        text-align: center;
+        width: 800px;
+        height: 100vh;
+        border-radius: 0;
+        /* margin: auto; */
+        display: grid;
+        grid-area: form;
+        justify-content: center;
+        align-content: center;
+        align-items: end;
+    }
+
+    body{
+        display: grid;
+        margin: 0;
+        grid-template-areas: "logo form";
+        grid-template-columns: 1fr 800px;
+    }
+    
+    form {
+        display: grid;
+        grid-template-rows: 60px 60px 1fr 1fr 1fr 1fr;
+        gap: 20px;
+        scale: 1.38;
+        grid-template-areas:
+            "heading"
+            "error"
+            "user"
+            "email"
+            "pass1"
+            "pass2"
+            "submit";
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        color: var(--text-clr-lighter);
+        grid-area: heading;
+        /* Use grid-area instead of grid-template-areas */
+    }
+
+    .errorlist {
+        grid-area: error;
+        /* Same here */
+    }
+
+    .input-box1 {
+        width: 18vw;
+        grid-area: user;
+        /* Same adjustment for other input boxes */
+    }
+
+    .input-box2 {
+        width: 18vw;
+        grid-area: email;
+    }
+
+    .input-box3 {
+        width: 18vw;
+        grid-area: pass1;
+    }
+
+    .input-box4 {
+        width: 18vw;
+        grid-area: pass2;
+    }
+
+    .submit-btn {
+        width: 60px;
+        grid-area: submit;
+    }
+    img{
+        grid-area: logo;
+        margin-top: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body style="background-color: var(--hover-clr);">
+    <img src="{% static 'images/stepwiselogo.jpg' %}" alt="#">
+    <div class="login-box">
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="errorlist">
+                {% for field in form %}
+                {% for error in field.errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <h1>Sign Up as Teacher</h1>
+            <div class="input-box1">
+                <input type="text" class="input-field" placeholder="Username" name="username" required>
+            </div>
+            <div class="input-box2">
+                <input type="email" class="input-field" placeholder="Email" name="email" required>
+            </div>
+            <div class="input-box3">
+                <input type="password" class="input-field" placeholder="Password" name="password1" required>
+            </div>
+            <div class="input-box4">
+                <input type="password" class="input-field" placeholder="Confirm Password" name="password2" required>
+            </div>
+            <div class="input-submit">
+                <button style="width: 140px;" type="submit" class="submit-btn">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Step Wise{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <style>
+    :root{
+    --base-clr: #11121a;
+    --base-clr-lighter: #1a1b24;
+    --base-clr-darker: #0b0c11;
+    --base-clr-tint: #2d2e3c;
+    --base-clr-muted: #181a23;
+    --base-clr-shade: #08090d;
+
+    --line-clr: #42434a;
+    --line-clr-darker: #36373d;
+    --line-clr-lighter: #5a5b61;
+    --line-clr-tint: #61626a;
+    --line-clr-shade: #2a2b31;
+    --line-clr-muted: #505158;
+    
+    --text-clr: #e6e6ef;
+    --secondary-text-clr: #b0b3c1;
+    
+    --accent-clr: #5e63ff;
+    
+    --hover-clr: #222533;
+    --hover-clr-darker: #1a1c28;
+    --hover-clr-lighter: #2b2f3e;
+    --hover-clr-tint: #3b3f52;
+    --hover-clr-shade: #181a22;
+    --hover-clr-muted: #2e3140;
+    --text-clr-lighter: #f2f2f9;
+    --text-clr-darker: #d4d4e3;
+    --text-clr-muted: #9fa2b2;
+    --text-clr-tint: #c5c7d8;
+    --text-clr-shade: #8c8f9f;
+
+    --secondary-text-clr-lighter: #c3c6d5;
+    --secondary-text-clr-darker: #9698a6;
+    --secondary-text-clr-muted: #8a8ca1;
+    --secondary-text-clr-tint: #a5a8b8;
+    --secondary-text-clr-shade: #7e8091;
+
+}
+
+        .navbar{
+            width: auto;
+            height: auto;
+        }
+        .header{
+            
+            box-sizing: content-box;
+            position: absolute;
+            background-color: #fff;
+            width: 100px;
+        }
+        .sidebar{
+            margin-inline: 3px;
+            padding-inline: 4px;
+            font-size: 20px;
+        }
+    </style>
+    <header style="position: absolute; left: 0  ;">
+        <nav>
+            <ul class="navbar">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                        <li class="sidebar">
+                            <a>{{ user.username }}</a>    
+                            <a href="{% url 'profile' %}">Profile</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html> -->

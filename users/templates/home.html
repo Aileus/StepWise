@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    :root{
+    --base-clr: #11121a;
+    --base-clr-lighter: #1a1b24;
+    --base-clr-darker: #0b0c11;
+    --base-clr-tint: #2d2e3c;
+    --base-clr-muted: #181a23;
+    --base-clr-shade: #08090d;
+
+    --line-clr: #42434a;
+    --line-clr-darker: #36373d;
+    --line-clr-lighter: #5a5b61;
+    --line-clr-tint: #61626a;
+    --line-clr-shade: #2a2b31;
+    --line-clr-muted: #505158;
+    
+    --text-clr: #e6e6ef;
+    --secondary-text-clr: #b0b3c1;
+    
+    --accent-clr: #5e63ff;
+    
+    --hover-clr: #222533;
+    --hover-clr-darker: #1a1c28;
+    --hover-clr-lighter: #2b2f3e;
+    --hover-clr-tint: #3b3f52;
+    --hover-clr-shade: #181a22;
+    --hover-clr-muted: #2e3140;
+    --text-clr-lighter: #f2f2f9;
+    --text-clr-darker: #d4d4e3;
+    --text-clr-muted: #9fa2b2;
+    --text-clr-tint: #c5c7d8;
+    --text-clr-shade: #8c8f9f;
+
+    --secondary-text-clr-lighter: #c3c6d5;
+    --secondary-text-clr-darker: #9698a6;
+    --secondary-text-clr-muted: #8a8ca1;
+    --secondary-text-clr-tint: #a5a8b8;
+    --secondary-text-clr-shade: #7e8091;
+
+}
+
+    .home-container {
+    background-color: var(--base-clr); /* Light blue background */
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 50vw;
+    height: auto;
+    margin: auto;
+}
+
+.home-container h2 {
+    font-size: 2em;
+    color: var(--text-clr);
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.home-container p {
+    font-size: 1.5em;
+    color: var(--text-clr-lighter);
+    line-height: 1.5;
+}
+
+.home-container a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-bottom-color 0.3s;
+}
+
+.home-container a:hover {
+    color: #0056b3;
+    border-bottom-color: #0056b3;
+}
+
+</style>
+
+<body style="background-color: var(--base-clr-tint);">
+    <div class="home-container">
+
+        <img src="{% static 'images\stepwiselogo.jpg' %}" style="height: 15vh;  width: 15vh; margin: auto; margin: 20px; border-radius: 15vh;"/>
+    
+    
+        <h2>Welcome to Step Wise</h2>
+        <p>Track your progress and achieve your goals with ease.</p>
+        <p>Your journey to progress starts here..</p>
+        <p>‎ ‎ ‎ ‎ ‎ ‎ </p>
+        <p>‎ ‎ ‎ ‎ ‎ ‎ </p>
+
+        <p>Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'student_signup' %}">sign up</a></p>
+    </div>
+</body>
+
+{% endblock %}
